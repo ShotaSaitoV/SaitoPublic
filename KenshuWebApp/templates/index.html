@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=850" />
+<meta http-equiv="content-style-type" content="text/css" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}" />
+<title>とあるサイトの禁書目録</title>
+<meta name="Keywords" content="キーワード１,キーワード２,キーワード３" />
+<meta name="Description" content="サイトの説明" />
+<script src="{{url_for('static',filename='realTimeClock.js')}}"></script>
+
+</head>
+<body>
+<!-- body▼ -->
+<div id="body">
+<!-- header▼ -->
+<div id="header">
+<h1 name="top" id="top"><a href="/">アルバイト給与計算システム</a></h1>
+</div>
+<!-- header▲ -->
+
+<!-- main▼ -->
+<div id="main">
+<!-- メインコンテンツ▼ -->
+<p>
+<br><br>
+<table border="1">
+    <tr>
+<form action="/post_time" method="POST">
+    <div>
+    <th><label for="ftime">時刻を入力してください。</label></th>
+    <th><input name="input_time" style="width: 30px;">
+    <label for="fmin"> : </label>
+    <input name="input_min" style="width: 30px;">
+    </th>
+    <th><button type="submit">送信</button></th>
+    <th><button type="reset">クリア</button></th>
+    </div>
+
+</form>
+</tr>
+
+<tr>
+<form action="/post_sal" method="POST">
+    <div>
+    <th><label for="sal">新しく登録する時給を入力</th>
+    <th><input name="input_sal" style="width: 60px;"> 円</th>
+    <th><button type="submit">送信</button></th>
+    <th><button type="reset">クリア</button></th>
+    </div>
+</form>
+</tr>
+{% if show_worktime!={} %}
+<tr>
+    <th>従食（まかない）入力</th>
+    <form action="/post_pay" method="POST">
+    <div>
+    <th><input name="input_pay" style="width: 60px;"> 円</th>
+    <th><button type="submit">送信</button></th>
+    <th><button type="reset">クリア</button></th>
+    </div>
+    </form>
+    </th>
+
+<tr>
+{% else %}
+<tr>
+    <th colspan="4" >働かざるもの食うべからず</th>
+</tr>
+{% endif %}
+</table>
+</p>
+
+
+
+<br>
+<!-- メインコンテンツ▲ -->
+</div>
+<!-- main▲ -->
+<!-- right▼ -->
+<div id="right">
+<h4>MENU</h4>
+<!-- サブメニュー▼ -->
+<ul id="menu2">
+<li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/index.html">最低賃金（厚生労働省）</a></li>
+<li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/mangaroudouhou.html">まんが知って役立つ労働法Ｑ＆Ａ</a></li>
+</ul>
+<!-- サブメニュー▲ -->
+<!-- rightコンテンツ▼ -->
+<!-- サイドボックス▼ -->
+<div class="box_head">
+</div>
+<div class="box_main">
+<p id="RealtimeClockArea2"></p>
+</div>
+<!-- サイドボックス▲ -->
+<h4>今の時給は {{result_init}} 円です</h4>
+</div>
+
+<div>
+{% if show_worktime=={} %}
+<h3>働けヲタク</h3>
+{% else %}
+<table border="1">
+    <tr>
+        <th> 時  刻 </th>
+        <th>入退店</th>
+    </tr>
+    {% for key,value in show_worktime.items() %}
+    <tr>
+        <th>{{value}}</th>
+
+        {% if key %2==1 %}
+        <th> 退店 </th>
+        
+
+        
+    {% else %}
+        <th> 入店 </th>
+    {% endif %}
+        <th>
+            <form action="/del_time" method="POST">
+                <div>
+                <input type="hidden" name="del_num" value={{key}}>
+                <button type="submit">削除</button>
+                </div>
+            </form>    
+        </th>
+    </tr>
+    
+    {% endfor %}
+    {% if length_showworktime%2==0 %}
+    <tr>
+        <th></th>
+    <th>
+        <form action="/send_time" method="POST">
+            <div>
+            <input type="hidden" name="send_time">
+            <button type="submit">送信</button>
+            </div>
+        </form>    
+    </th>
+    </tr>
+    {% endif %}
+</table>
+{% endif %}
+</div>
+
+<!-- footer▼ -->
+<div id="footer">
+<br /><br /><br />
+Copyright (C) ShotaSaito All Rights Reserved.
+</div>
+<!-- footer▲ -->
+<div id="copy">
+<!--削除しないでください-->
+<p><a href="http://homepagetemplate.web.fc2.com/" target="_blank" title="ホームページ テンプレート フリー H.P.T.F">ホームページ テンプレート フリー</a></p><p>Design by</p>
+</div>
+</div>
+<!-- body▲ -->
+</body>
+</html>
